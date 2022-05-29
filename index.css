@@ -1,0 +1,180 @@
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+body {
+    position: relative;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.player {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 140px;
+}
+
+
+.controls_play {
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px #aaa solid;
+    cursor: pointer;
+}
+
+.controls_play:hover {
+    border-color: #666;
+}
+
+.player_playing .controls_play {
+    background: #9DBAFF;
+}
+
+.progress {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 10px;
+    border: 1px #ccc solid;
+    margin: 10px 0;
+}
+
+.progress_loaded, 
+.progress_current {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 0;
+    top: 0;
+    left: 0;
+}
+
+.progress_loaded {
+    background: #ccc;
+    z-index: 1;
+}
+
+.progress_current {
+    background: #535BC3;
+    z-index: 2;
+    position: relative;
+}
+
+.progress_pointer {
+    background: rgba(255, 0, 0, 0);
+    border: 1px solid #666;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    top: -4px;
+    right:-2px;
+    position: absolute;
+}
+
+.progress-wrapper {
+    display: block;
+}
+.progress-input{
+    /* background-color: #535BC3; */
+}
+
+
+/* FF */
+ /* .progress-input::-moz-range-progress {
+        background-color: rgba(253, 0, 0, 1);
+}
+
+ .progress-input::-moz-range-track {
+        background-color: #3333;
+} */
+
+/* IE */
+
+ /* .progress-input::-ms-fill-lower {
+        background-color: #3333;
+}
+
+ .progress-input::-ms-fill-upper {
+        background-color: #434343;
+}   */
+
+
+/********** Range Input Styles **********/
+/*Range Reset*/
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+    outline: none;
+}
+
+/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    margin-top: -.3rem;
+    /* Centers thumb on the track */
+
+    /*custom styles*/
+    background-color: #5cd5eb;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+}
+
+/* 
+input[type="range"]:focus::-webkit-slider-thumb {
+    border: 1px solid #053a5f;
+    outline: 3px solid #053a5f;
+    outline-offset: 0.125rem;
+} */
+
+/******** Firefox styles ********/
+/* slider track */
+
+input[type="range"]::-moz-range-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+    border: none;
+    /*Removes extra border that FF applies*/
+    border-radius: 50%;
+    /*Removes default border-radius that FF applies*/
+    /*custom styles*/
+    background-color: #5cd5eb;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+}
+
+/* input[type="range"]:focus::-moz-range-thumb {
+    border: 1px solid #053a5f;
+    outline: 3px solid #053a5f;
+    outline-offset: 0.125rem;
+} */
