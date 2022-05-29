@@ -19,7 +19,7 @@
             bar: document.querySelector(".progress"),
             loaded: document.querySelector(".progress_loaded"),
             current: document.querySelector(".progress_current"),
-            pointer: document.querySelector(".progress_pointer")
+            input: document.querySelector(".progress_input"),
         },
 
     };
@@ -29,14 +29,13 @@
 
 
     var audioPlayer = new AudioPlayer();
-    const progressInput = document.querySelector('input[type=range]')
-    progressInput.addEventListener('input', gg)
 
-    function gg(event) {
-        console.log(event);
-        console.log(event.target.value);
+
+    dom.progress.input.addEventListener('input', (event)=>{
         audioPlayer.setPosition(event.target.value);
-    }
+    } )
+
+
 
     audioPlayer.initPromise()
 
@@ -54,9 +53,9 @@
      позиции воспроизведения. */
 
     audioPlayer.on(ya.music.Audio.EVENT_PROGRESS, function (timings) {
-        progressInput.setAttribute('max', timings.duration);
+        dom.progress.input.setAttribute('max', timings.duration);
         console.log();
-        progressInput.value = timings.position;
+        dom.progress.input.value = timings.position;
         // console.log(timings.position / timings.duration * 100)
         dom.progress.loaded.style.width = (timings.loaded / timings.duration * 100).toFixed(2) + "%";
         dom.progress.current.style.width = (timings.position / timings.duration * 100).toFixed(2) + "%";
@@ -122,27 +121,6 @@
         return offset;
     };
 
-    dom.progress.bar.addEventListener("click", function (evt) {
-
-        var fullWidth = dom.progress.bar.offsetWidth;
-        var offset = offsetLeft(dom.progress.bar);
-        console.log('fullWidth');
-        console.log(fullWidth);
-        console.log('offset');
-        console.log(offset)
-
-        var relativePosition = Math.max(0, Math.min(1, ((evt.pageX || evt.screenX) - offset) / fullWidth));
-        var duration = audioPlayer.getDuration();
-
-        console.log('duration');
-        console.log(duration);
-        console.log('relativePosition');
-        console.log(relativePosition);
-
-        audioPlayer.setPosition(duration * relativePosition);
-        console.log('duration * relativePosition');
-        console.log(duration * relativePosition);
-    });
 
 
 })();
