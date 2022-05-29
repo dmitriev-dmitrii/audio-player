@@ -29,7 +29,7 @@
 
 
     var audioPlayer = new AudioPlayer();
-    const progressInput = document.querySelector('.progress-input')
+    const progressInput = document.querySelector('input[type=range]')
     progressInput.addEventListener('input', gg)
 
     function gg(event) {

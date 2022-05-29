@@ -108,7 +108,7 @@ body {
 
 /********** Range Input Styles **********/
 /*Range Reset*/
-input[type="range"] {
+.gg1 {
     -webkit-appearance: none;
     appearance: none;
     background: transparent;
@@ -117,20 +117,20 @@ input[type="range"] {
 }
 
 /* Removes default focus */
-input[type="range"]:focus {
+.gg1:focus {
     outline: none;
 }
 
 /***** Chrome, Safari, Opera and Edge Chromium styles *****/
 /* slider track */
-input[type="range"]::-webkit-slider-runnable-track {
+.gg1::-webkit-slider-runnable-track {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     height: 0.5rem;
 }
 
 /* slider thumb */
-input[type="range"]::-webkit-slider-thumb {
+.gg1::-webkit-slider-thumb {
     -webkit-appearance: none;
     /* Override default look */
     appearance: none;
@@ -145,7 +145,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* 
-input[type="range"]:focus::-webkit-slider-thumb {
+.gg1:focus::-webkit-slider-thumb {
     border: 1px solid #053a5f;
     outline: 3px solid #053a5f;
     outline-offset: 0.125rem;
@@ -154,14 +154,14 @@ input[type="range"]:focus::-webkit-slider-thumb {
 /******** Firefox styles ********/
 /* slider track */
 
-input[type="range"]::-moz-range-track {
+.gg1::-moz-range-track {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     height: 0.5rem;
 }
 
 /* slider thumb */
-input[type="range"]::-moz-range-thumb {
+.gg1::-moz-range-thumb {
     border: none;
     /*Removes extra border that FF applies*/
     border-radius: 50%;
@@ -173,8 +173,112 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 50%;
 }
 
-/* input[type="range"]:focus::-moz-range-thumb {
+/* .gg1:focus::-moz-range-thumb {
     border: 1px solid #053a5f;
     outline: 3px solid #053a5f;
     outline-offset: 0.125rem;
 } */
+
+
+
+
+.gg2 {
+    -webkit-appearance: none;
+    margin: 18px 0;
+    width: 100%;
+}
+
+.gg2:focus {
+    outline: none;
+}
+
+.gg2::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+.gg2::-webkit-slider-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -14px;
+}
+
+.gg2:focus::-webkit-slider-runnable-track {
+    background: #367ebd;
+}
+
+.gg2::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+.gg2::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.gg2::-ms-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+}
+
+.gg2::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+.gg2::-ms-fill-upper {
+    background: #3071a9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+.gg2::-ms-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.gg2:focus::-ms-fill-lower {
+    background: #3071a9;
+}
+
+.gg2:focus::-ms-fill-upper {
+    background: #367ebd;
+}
