@@ -1,10 +1,9 @@
 <template>
   <div class="player">
     <div class="player-data">
-      <p>loaded:{{ loaded }}</p>
-      <p>duration:{{ duration }}</p>
-      <p>position:{{ position }}</p>
-      <p>focused:{{ focused }}</p>
+      <p>loaded: {{ loaded }}</p>
+      <p>duration: {{ duration }}</p>
+      <p>position: {{ position }}</p>
       <label
         >serverPosition <input type="number" v-model.number="serverPosition"
       /></label>
@@ -13,26 +12,33 @@
       /></label>
     </div>
 
-    <button @click="playToggle" v-text="played ? 'pause' : 'play'"></button>
-    <div class="progress">
-      <div
-        class="progress_loaded-position"
-        :style="{ width: ((loaded / duration) * 100).toFixed(2) + '%' }"
-      ></div>
-      <div
-        class="progress_current-position"
-        :style="{ width: ((position / duration) * 100).toFixed(2) + '%' }"
-      ></div>
-      <input
-        class="progress_input"
-        type="range"
-        :value="position"
-        :max="duration"
-        @change="jump"
-        @input="jump"
-        @blur="focused = false"
-      />
-    </div>
+    <button @click="startPlay">play</button>
+        <button @click="stopPlay">stop</button>
+            <button @click=" resumeOrPause"> resumeOrPause</button>
+
+                  <div class="audio-player__nav-line" >
+                        <div
+                            class="audio-player__nav-line-loaded"
+                            :style="{ width: ((loaded / duration) * 100).toFixed(2) + '%' }"
+                        ></div>
+                        <div
+                            v-show='!loading'
+                            class="audio-player__nav-line-progress"
+                            :style="{ width: ((position / duration) * 100).toFixed(2) + '%' }"
+                        ></div>
+
+                        <input
+                            :disabled='loading'
+                            :class="{ loading }"
+                            class="audio-player__nav-line-range-input"
+                            type="range"
+                            :value="position"
+                            :max="duration"
+
+                            @change="rewindOnRangeInput"
+                            @input="rewindOnRangeInput"
+                        />
+                    </div>
   </div>
 </template>
 
@@ -50,94 +56,110 @@ export default {
         "https://cachev2-spb02.cdn.yandex.net/download.cdn.yandex.net/tech/ru/audio/jsapi/doc/examples/files/audio_src/Tchaikovsky3.mp3?lid=21",
       ],
       currentTrackIndex: 0,
-      played: false,
-      loaded: 0,
-      position: 0,
-      duration: 0,
 
-      focused: false,
-
-      serverPosition: 300,
+      serverPosition: 0,
+            loaded:0,
+            rangeInputFocused:false,
+            show: false,
+            progress: '0%',
+            position: 0,
+            duration: '00:00',
+            durationS: 0,
+            prevDuration: 0,
+            prePrevDuration: 0,
+            nextDuration: 0,
+            time: '00:00',
+            indexTrack: 0,
+            drag: null,
+            loading: false,
+            paused: true,
+            player: {},
+            error: false,
+            xapi: null,
+            rate: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
+            retryPlay: 5,
     };
+
   },
   methods: {
-    updateProgress: function ({ duration, loaded, position }) {
-      this.duration = duration;
-      if (!this.focused) {
-        this.position = position;
-      }
-      this.loaded = loaded;
-    },
+            rewindOnRangeInput: function (event) {
 
-    jump: function (event) {
-      if (event.type === "input") {
-        this.focused = true;
-        this.position = event.target.value;
-      }
+            const currentValue =  parseInt(event.target.value);
 
-      if (event.type === "change") {
-        this.focused = false;
-        this.audioPlayer.setPosition(event.target.value);
-      }
-    },
-    playToggle: function () {
-      this.played = !this.played;
+          if ( event.type === 'input') { 
+                this.rangeInputFocused = true;
+                this.position = currentValue;
+                return
+            }
 
-      var track = this.trackList[this.currentTrackIndex];
+            console.log( event.type );
+            console.log( currentValue );
+            console.log( this.player.getState() );
 
-      console.log("playToggle   audioPlayer.getState()");
-      console.log(this.audioPlayer.getState());
+            if (  this.player.getState() === 'playing') { 
+                this.player.setPosition( currentValue );
+                this.rangeInputFocused = false;
+                return
+            }
 
-      if (this.audioPlayer.getState() === "playing") {
-        this.audioPlayer.pause();
-        return;
-      }
+            if (  this.player.getState() === 'paused' ) { 
+                this.player.setPosition( currentValue );
+                this.player.resume() 
+                this.rangeInputFocused = false;
+                return
+            }
 
-      if (this.audioPlayer.getState() === "paused") {
-        this.audioPlayer.resume();
-        return;
-      }
+            if (  this.player.getState() === 'idle' ) {
+                this.loading = true;
+                this.rangeInputFocused = false;
 
-      if (this.audioPlayer.getLoaded(true) > this.serverPosition) {
-        console.log("play preloaded");
-        this.audioPlayer.playPreloaded(track);
-        this.audioPlayer.pause();
-        this.audioPlayer.setPosition(this.serverPosition);
-        this.audioPlayer.resume();
-        return;
-      }
+                this.player.play( this.player.getSrc() )
+                .then(()=>{
+                    this.player.setPosition( currentValue );
+                    })
+                return
+            }
 
-      this.audioPlayer
-        .play(track)
+        },
 
-        .then(() => {
-          console.log("this.audioPlayer.play(track)");
-          console.log(this.audioPlayer.getDuration());
-          this.audioPlayer.pause();
-          this.audioPlayer.setPosition(this.serverPosition);
-          this.audioPlayer.resume();
-        });
-    },
+                updateProgress({ duration, loaded, position }) {
+            // если range input в текущий момент юзает пользователь позиция присаевается от инпута
+            if(!this.rangeInputFocused) { this.position = position; }
+            this.duration = duration
+            this.loaded=loaded // number
+      
+
+            if (position) {
+                this.loading = false;
+                this.error = false;
+            }
+
+        },
+        startPlay (){
+          this.player.play(this.trackList[this.currentTrackIndex]).then(()=>{
+            if (this.serverPosition) {
+                this.player.setPosition(this.serverPosition);
+            }
+          })
+        },
+                stopPlay (){
+          this.player.stop()
+        },
+        resumeOrPause (){
+         this.player.getState() === 'paused' ? this.player.resume() :  this.player.pause() 
+        }
   },
   mounted() {
-    this.audioPlayer = new window.ya.music.Audio();
-    this.audioPlayer.initPromise().then(
+    this.player = new window.ya.music.Audio();
+
+    this.player.initPromise().then(
       () => {
-        console.log("Аудио-плеер готов к работе");
-        this.audioPlayer
-          .preload(this.trackList[this.currentTrackIndex])
-          .then(() => {
-            console.log("start  preload");
-            console.log(this.audioPlayer.getLoaded(true));
-          });
-        this.audioPlayer.on(
+
+        this.player.on(
           yaAudio.music.Audio.EVENT_PROGRESS,
           this.updateProgress
         );
-        this.audioPlayer.on(
-          yaAudio.music.Audio.EVENT_LOADED,
-          console.log("EVENT_LOADED")
-        );
+
       },
       function () {
         console.error("Не удалось инициализировать аудио-плеер");
