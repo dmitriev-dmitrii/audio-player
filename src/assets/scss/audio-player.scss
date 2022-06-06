@@ -414,9 +414,10 @@ body {
 					border-radius: 50%;
 					background-color: rgb(61, 61, 61);
 						height: 12px;
-							width: 12px;
+						width: 12px;
 					border: 0;
 					box-shadow: 0 ;
+
 					transition: all .2s linear;
 							@media (min-width: 568px) {
 									height: 6px;
@@ -429,14 +430,14 @@ body {
 					width: 12px;
 				}
 														&:hover {
-							
+					
 															height: 12px;
 															width: 12px;
 														}
 
 										@media (hover: none) {
-												height: 12px;
-													width: 12px;
+												height: 16px;
+												width: 16px;
 										}
 																															
 				}
