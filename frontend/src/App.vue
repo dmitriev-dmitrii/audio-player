@@ -1,6 +1,6 @@
 
 <template>
-  <web-socket/>
+  <app-player/>
 </template>
 
 <style>
@@ -13,9 +13,9 @@
 }
 </style>
 <script>
-    import webSocket from './components/web-socket.vue';
+import appPlayer from './components/appPlayer.vue';
 export default {
-  components :{ webSocket }
+  components :{ appPlayer }
 }
 </script>
 
