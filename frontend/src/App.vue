@@ -1,6 +1,12 @@
 
 <template>
-  <app-player/>
+  <div>
+    <h1> devicePixelRatio: {{ devicePixelRatio }}
+    </h1>
+    <h1>
+      calcRatio: {{ calcRatio }}</h1>
+    <app-player />
+  </div>
 </template>
 
 <style>
@@ -15,7 +21,16 @@
 <script>
 import appPlayer from './components/appPlayer.vue';
 export default {
-  components :{ appPlayer }
+  components :{ appPlayer },
+  data:()=> { return {
+  devicePixelRatio: 0,
+  calcRatio: 0
+  }
+  },
+  mounted (){
+    this.devicePixelRatio = window.devicePixelRatio;
+    this.calcRatio = window.screen.deviceXDPI / window.screen.logicalXDPI
+  }
 }
 </script>
 
